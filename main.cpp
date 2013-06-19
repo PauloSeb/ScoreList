@@ -11,11 +11,13 @@ int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
 
-    MyHttpEngine * engine = new MyHttpEngine();
-
 
     QtQuick2ApplicationViewer viewer;
-    viewer.rootContext()->setContextProperty("listModelC",QVariant::fromValue(engine->scoreList));
+    QQmlContext * myContext = viewer.rootContext();
+
+    MyHttpEngine * engine = new MyHttpEngine(myContext);
+
+    myContext->setContextProperty("listModelC",QVariant::fromValue(engine->scoreList));
     viewer.setMainQmlFile(QStringLiteral("qml/ShowList/main.qml"));
     viewer.showExpanded();
 

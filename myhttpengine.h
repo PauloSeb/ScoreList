@@ -21,11 +21,11 @@ class MyHttpEngine : public QObject
 {
     Q_OBJECT
 public:
-    explicit MyHttpEngine(QObject *parent = 0);
+    explicit MyHttpEngine(QQmlContext * myContext, QObject *parent = 0);
 
     void parseScore(QXmlStreamReader& xml);
     QList<QObject *> scoreList;
-
+    QQmlContext * myContext;
 signals:
     
 public slots:

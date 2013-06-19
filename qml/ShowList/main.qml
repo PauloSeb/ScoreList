@@ -1,8 +1,8 @@
 import QtQuick 2.0
 Rectangle {
     id: mainWindow
-    width: 360
-    height: 360
+    width: 800
+    height: 600
     ListView {
          id: listView
          anchors.centerIn: parent
@@ -11,40 +11,20 @@ Rectangle {
          delegate: listDelegate
          highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
          focus: true
-         section.property: "category"
+         section.property: "name"
          section.criteria: ViewSection.FullString
          section.delegate: headerDelegate
     }
-
-    ListModel {
-        id: listModel
-         ListElement {
-             name: "Bill Smith"
-             category: "A"
-             number: "555 3264"
-         }
-         ListElement {
-             name: "John Brown"
-             category: "A"
-             number: "555 8426"
-         }
-         ListElement {
-             name: "Sam Wise"
-             category: "B"
-             number: "555 0473"
-         }
-     }
 
     //Delegate for items
     Component {
              id: listDelegate
              Item {
-                 width: 360
-                 height: 60
+                 width: 800
+                 height: 40
                  Column {
-                     Text { text: '<b>Name:</b> ' + name; color: mouseArea.containsMouse ? "red" : "black" }
-                     Text { text: '<b>Category:</b> ' + category }
-                     Text { text: '<b>Number:</b> ' + number }
+                     Text { text: '<b>Category:</b> ' + category; color: mouseArea.containsMouse ? "red" : "black" }
+                     Text { text: '<b>Id:</b> ' + number; color: mouseArea.containsMouse ? "red" : "black" }
                  }
                  MouseArea {
                     id: mouseArea
@@ -62,7 +42,7 @@ Rectangle {
     Component {
              id: headerDelegate
              Rectangle {
-                 width: 360
+                 width: 800
                  height: 20
                  color: "lightgray"
                  radius: 5

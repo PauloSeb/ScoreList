@@ -2,12 +2,10 @@
 //AND http://www.developer.nokia.com/Community/Wiki/QXmlStreamReader_to_parse_XML_in_Qt
 #include "myhttpengine.h"
 
-MyHttpEngine::MyHttpEngine(QObject *parent) :
+MyHttpEngine::MyHttpEngine(QQmlContext * myContext, QObject *parent) :
     QObject(parent)
 {
-    scoreList.append(new ScoreInfo("init", "init", "init"));
-    scoreList.append(new ScoreInfo("init2", "init", "init2"));
-    scoreList.append(new ScoreInfo("init3", "init3", "init3"));
+    this->myContext = myContext;
     nam = new QNetworkAccessManager(this);
     QObject::connect(nam, SIGNAL(finished(QNetworkReply*)),
              this, SLOT(finishedSlot(QNetworkReply*)));
@@ -67,6 +65,8 @@ void MyHttpEngine::finishedSlot(QNetworkReply* reply)
     // We receive ownership of the reply object
     // and therefore need to handle deletion.
     delete reply;
+
+    myContext->setContextProperty("listModelC",QVariant::fromValue(scoreList));
 }
 
 
@@ -95,7 +95,7 @@ void MyHttpEngine::parseScore(QXmlStreamReader& xml) {
                 name = xml.text().toString();
             }
             /* We've found description. */
-            if(xml.name() == "description") {
+            if(xml.name() == "genre") {
                 xml.readNext();
                 description = xml.text().toString();
             }
@@ -109,7 +109,4 @@ void MyHttpEngine::parseScore(QXmlStreamReader& xml) {
         xml.readNext();
     }
     scoreList.append(new ScoreInfo(name, description, id));
-    QQuickView view;
-    view.rootContext()->setContextProperty("listModelC",QVariant::fromValue(scoreList));
-    qDebug() << "list updated with score id" << id;
 }
