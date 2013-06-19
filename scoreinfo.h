@@ -4,9 +4,6 @@
 #include <QObject>
 #include <QString>
 
-#include "qtquick2applicationviewer.h"
-#include <QQmlContext>
-
 class ScoreInfo : public QObject
 {
     Q_OBJECT

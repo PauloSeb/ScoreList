@@ -12,6 +12,8 @@
 #include <QXmlStreamReader>
 #include <QList>
 #include "scoreinfo.h"
+#include <QQuickView>
+#include <QQmlContext>
 
 #include <QDebug>
 

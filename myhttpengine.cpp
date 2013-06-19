@@ -5,6 +5,9 @@
 MyHttpEngine::MyHttpEngine(QObject *parent) :
     QObject(parent)
 {
+    scoreList.append(new ScoreInfo("init", "init", "init"));
+    scoreList.append(new ScoreInfo("init2", "init", "init2"));
+    scoreList.append(new ScoreInfo("init3", "init3", "init3"));
     nam = new QNetworkAccessManager(this);
     QObject::connect(nam, SIGNAL(finished(QNetworkReply*)),
              this, SLOT(finishedSlot(QNetworkReply*)));
@@ -61,12 +64,6 @@ void MyHttpEngine::finishedSlot(QNetworkReply* reply)
     {
         // handle errors here
     }
-
-    //start displaying new data
-    QtQuick2ApplicationViewer viewer;
-    viewer.rootContext()->setContextProperty("listModelC",QVariant::fromValue(scoreList));
-    qDebug() << "updated!";
-
     // We receive ownership of the reply object
     // and therefore need to handle deletion.
     delete reply;
@@ -112,4 +109,7 @@ void MyHttpEngine::parseScore(QXmlStreamReader& xml) {
         xml.readNext();
     }
     scoreList.append(new ScoreInfo(name, description, id));
+    QQuickView view;
+    view.rootContext()->setContextProperty("listModelC",QVariant::fromValue(scoreList));
+    qDebug() << "list updated with score id" << id;
 }
